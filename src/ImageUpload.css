@@ -1,0 +1,33 @@
+.upload {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 15px;
+    /* background-color: #ffffff; */
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.upload__progress {
+    width: 100%;
+    margin-bottom: 10px;
+}   
+
+.upload__caption {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.upload__file {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+p {
+    margin-left: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
