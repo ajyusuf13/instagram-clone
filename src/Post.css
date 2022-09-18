@@ -3,12 +3,20 @@
     background-color: white;
     border: 1px solid lightgray;
     margin-bottom: 40px;
+    box-shadow: 0 4px 10px 1px #888; /* line shadow */
 }
 
 .post__header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 15px;
+}
+
+.post__headerAvatarAndName {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -18,6 +26,11 @@
     height: 50px;
     margin-right: 10px;
     
+}
+
+.post__timePosted {
+    color: gray;
+    font-size: 12px;
 }
 
 .post__image {

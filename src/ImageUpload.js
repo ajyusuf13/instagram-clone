@@ -55,21 +55,20 @@ function ImageUpload() {
 
   return (
     <div className='upload'>
-            <progress className="upload__progress" value={progress} max="100"></progress>
-            <Input className="upload__caption" type='text' placeholder='anything to say...?' 
-                    value={caption} onChange={(e) => setCaption(e.target.value)}></Input>
-            <div className='upload__file'>
-                <label htmlFor='upload'>
-                    <Attachment/>
-                </label>
-                <Input style={{display: "none"}} id="upload" type="file" onChange={(e)=> {
-                    setImageChosen(e.target.files[0].name);
-                    setImage(e.target.files[0]);
-                }}></Input>
-                <p>{imageChosen}</p>
-                <Button onClick={uploadPost}>POST</Button>
-            </div>
-            
+        <progress value={progress} max="100"></progress>
+        <Input className="upload__caption" type='text' placeholder='anything to say...?' 
+                value={caption} onChange={(e) => setCaption(e.target.value)}></Input>
+        <div className='upload__file'>
+            <label htmlFor='upload'>
+                <Attachment/>
+            </label>
+            <Input style={{display: "none"}} id="upload" type="file" onChange={(e)=> {
+                setImageChosen(e.target.files[0].name);
+                setImage(e.target.files[0]);
+            }}></Input>
+            <p>{imageChosen}</p>
+            <Button onClick={uploadPost}>POST</Button>
+        </div>        
     </div>
   )
 }

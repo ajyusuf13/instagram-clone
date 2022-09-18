@@ -71,15 +71,17 @@ function App() {
 
 
   // UseEffect runs a piece of code based on a speicifc condition
-  // runs when page re
+  // runs when page renders
   useEffect(() => {
-    db.collection("posts").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+    const unsub = db.collection("posts").orderBy("timestamp", "desc").onSnapshot(snapshot => {
       // every time a new post is added, this will run (taking a snapshot of the db)
       setPosts(snapshot.docs.map(doc => ({
         id: doc.id,
         post: doc.data()
       })))
     })
+
+    return () => unsub();
 
   }, []);
  
@@ -173,7 +175,7 @@ function App() {
       <div className='app__posts'>
         {
           posts.map(({id, post}) => (
-            <Post key={id} postId={id} username={post.username} caption={post.caption} imageURL={post.imageURL}/>
+            <Post key={id} postId={id} username={post.username} caption={post.caption} imageURL={post.imageURL} timestamp={post.timestamp}/>
           ))
         }
       </div>

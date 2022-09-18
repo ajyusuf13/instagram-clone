@@ -4,8 +4,9 @@ import Avatar from '@mui/material/Avatar';
 import { auth, db } from './firebase';
 import { Input, Button } from '@mui/material';
 import {serverTimestamp} from "firebase/firestore"
+import Moment from 'react-moment';
 
-function Post({postId, username, caption, imageURL}) {
+function Post({postId, username, caption, imageURL, timestamp}) {
     const [comments, setComments] = useState([]);
     const [comment, setComment] = useState("");
 
@@ -34,19 +35,22 @@ function Post({postId, username, caption, imageURL}) {
   return (
     <div className='post'>
         <div className='post__header'>
-            <Avatar
-                className='post__headerAvatar'
-                src='/images/avatar/1.jpg'
-                alt={username}>
-            </Avatar>
-            <h4>{username}</h4>
+            <div className='post__headerAvatarAndName'>
+                <Avatar
+                    className='post__headerAvatar'
+                    src='/images/avatar/1.jpg'
+                    alt={username}>
+                </Avatar>
+                <h4>{username}</h4>
+            </div>
+            <Moment fromNow className='post__timePosted'>{timestamp.toDate()}</Moment>
         </div>
         <img className='post__image'
             src={imageURL}
             alt=''>
         </img>
         <h4 className='post__details'>
-            <strong>{username}</strong> {caption}
+            <strong>hello</strong> {caption}
         </h4>
         {comments.length ? (
             <div className="post__comment">
@@ -59,8 +63,8 @@ function Post({postId, username, caption, imageURL}) {
             </div>
         ) : null }
         <div className='post__addComment'>
-            <Input style={{width: "70%"}} type="text" onChange={(e) => setComment(e.target.value)} placeholder="something to say perhaps...?"></Input>
-            <Button style={{width: "30%"}} onClick={addComment} disabled={!comment}>add comment</Button>
+            <Input style={{width: "70%"}} type="text" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="something to say perhaps...?"></Input>
+            <Button style={{width: "30%"}} onClick={addComment} disabled={!comment || !auth.currentUser}>add comment</Button>
         </div>
         
 
