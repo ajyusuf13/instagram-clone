@@ -41,14 +41,17 @@ function App() {
     })
     .catch(err => alert(err.message))
     setOpen(false);
+    setEmail("");
+    setPassword("");
   }
 
   const logIn = (event) => {
     event.preventDefault(); // prevents page from reloading when you submit a form
     auth.signInWithEmailAndPassword(email, password)
     .catch(err => alert(err.message))
-
     setOpenLogIn(false);
+    setEmail("");
+    setPassword("");
 
   }
 
@@ -147,7 +150,7 @@ function App() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}>
             </Input>
-            <Button type="submit" onClick={logIn}>Log Up</Button>
+            <Button type="submit" onClick={logIn}>Log In</Button>
           </form>
         </div>
       </Modal>

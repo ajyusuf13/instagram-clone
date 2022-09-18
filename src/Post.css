@@ -47,12 +47,26 @@ h5 {
     font-weight: normal;
 }
 
-
 .post__details {
-    padding: 15px;
-    font-weight: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
     border-bottom: 1px solid lightgray;
+    padding: 5px 15px;
+
 }
+
+.post__details_h4 {
+    font-weight: normal;
+}
+
+.post__likes {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+
 
 .post__comment {
     padding: 15px;
