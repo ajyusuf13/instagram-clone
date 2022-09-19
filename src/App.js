@@ -5,6 +5,11 @@ import { db, auth } from "./firebase";
 import Modal from '@mui/material/Modal';
 import {Button, Input} from "@mui/material/";
 import ImageUpload from './ImageUpload';
+import { createContext } from 'react';
+import ReactSwitch from 'react-switch';
+
+export const ThemeContext = createContext(null);
+
 
 const style = {
   position: 'absolute',
@@ -20,6 +25,7 @@ const style = {
 
 
 function App() {
+  const [theme, setTheme] = useState("light");
  
   const [posts, setPosts] = useState([]);
   const [open, setOpen] = useState(false);
@@ -27,8 +33,12 @@ function App() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  
   const [user, setUser] = useState(null);
+
+  const toggleTheme = () => {
+    setTheme((curr) => curr === "light" ? "dark" : "light");  // check current theme & toggle accordingly
+  }
 
   const signUp = (event) => {
     event.preventDefault();
@@ -89,106 +99,108 @@ function App() {
   }, []);
  
   return (
-    <div className='app'>
-      <Modal
-        open={open}
-        onClose={() => setOpen(false)}
-      >
-        <div style={style}>
-          <form className='app__signUp'>
-            <center>
-              <img 
-                className='app__headerImage'
-                src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/840px-Instagram_logo.svg.png'
-                alt='ig name'> 
-              </img>
-            </center>
-            <Input
-              placeholder='username'
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}>
-            </Input>
-            <Input
-              placeholder='email'
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}>
-            </Input>
-            <Input
-              placeholder='password'
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}>
-            </Input>
-            <Button type="submit" onClick={signUp}>Sign Up</Button>
-          </form>
-        </div>
-      </Modal>
-      <Modal
-        open={openLogin}
-        onClose={() => setOpenLogIn(false)}
-      >
-        <div style={style}>
-          <form className='app__signUp'>
-            <center>
-              <img 
-                className='app__headerImage'
-                src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/840px-Instagram_logo.svg.png'
-                alt='ig name'> 
-              </img>
-            </center>
-            <Input
-              placeholder='email'
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}>
-            </Input>
-            <Input
-              placeholder='password'
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}>
-            </Input>
-            <Button type="submit" onClick={logIn}>Log In</Button>
-          </form>
-        </div>
-      </Modal>
-      
-      {/* type=submit sends form data to a form handler*/}
-      <div className='app__header'>
-          {/*Header */}
-          <img 
-            className='app__headerImage'
-            src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/840px-Instagram_logo.svg.png'
-            alt='ig name'>
+    <ThemeContext.Provider value={{theme, toggleTheme}}>
+      <div className='app' id={theme}>
+        <Modal
+          open={open}
+          onClose={() => setOpen(false)}
+        >
+          <div style={style}>
+            <form className='app__signUp'>
+              <center>
+                <img 
+                  className='app__headerImage'
+                  src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/840px-Instagram_logo.svg.png'
+                  alt='ig name'> 
+                </img>
+              </center>
+              <Input
+                placeholder='username'
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}>
+              </Input>
+              <Input
+                placeholder='email'
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}>
+              </Input>
+              <Input
+                placeholder='password'
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}>
+              </Input>
+              <Button type="submit" onClick={signUp}>Sign Up</Button>
+            </form>
+          </div>
+        </Modal>
+        <Modal
+          open={openLogin}
+          onClose={() => setOpenLogIn(false)}
+        >
+          <div style={style}>
+            <form className='app__signUp'>
+              <center>
+                <img 
+                  className='app__headerImage'
+                  src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/840px-Instagram_logo.svg.png'
+                  alt='ig name'> 
+                </img>
+              </center>
+              <Input
+                placeholder='email'
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}>
+              </Input>
+              <Input
+                placeholder='password'
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}>
+              </Input>
+              <Button type="submit" onClick={logIn}>Log In</Button>
+            </form>
+          </div>
+        </Modal>
+        
+        {/* type=submit sends form data to a form handler*/}
+        <div className='app__header'>
+            {/*Header */}
+            <img 
+              className='app__headerImage'
+              src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/840px-Instagram_logo.svg.png'
+              alt='ig name'>
+            </img>
+            <ReactSwitch onChange={toggleTheme} checked={theme === "dark"}/>
+            {user ? (
+              <Button onClick={() => auth.signOut()}>LOG OUT</Button>
+            ) : (
+              <div className='app__logInSignUp'>
+                <Button onClick={() => setOpenLogIn(true)}>LOG IN</Button>
+                <Button onClick={() => setOpen(true)}>SIGN UP</Button>
+              </div>
               
-          </img>
+            )}
+        </div>
+        <div className='app__posts'>
+          {
+            posts.map(({id, post}) => (
+              <Post key={id} postId={id} username={post.username} caption={post.caption} imageURL={post.imageURL} timestamp={post.timestamp}/>
+            ))
+          }
+        </div>
+        {user ? (<ImageUpload/>) : (
+          <center>
+            <h4 style={{paddingBottom: "30px"}}>Please login if you'd like to post :)</h4>
+          </center>
+        )}
 
-          {user ? (
-            <Button onClick={() => auth.signOut()}>LOG OUT</Button>
-          ) : (
-            <div className='app__logInSignUp'>
-              <Button onClick={() => setOpenLogIn(true)}>LOG IN</Button>
-              <Button onClick={() => setOpen(true)}>SIGN UP</Button>
-            </div>
-            
-          )}
       </div>
-      <div className='app__posts'>
-        {
-          posts.map(({id, post}) => (
-            <Post key={id} postId={id} username={post.username} caption={post.caption} imageURL={post.imageURL} timestamp={post.timestamp}/>
-          ))
-        }
-      </div>
-      {user ? (<ImageUpload/>) : (
-        <center>
-          <h3>Please login if you'd like to post :)</h3>
-        </center>
-      )}
+    </ThemeContext.Provider>
 
-    </div>
 
 
   );

@@ -1,9 +1,18 @@
 .post {
     max-width: 500px;
-    background-color: white;
     border: 1px solid lightgray;
     margin-bottom: 40px;
+}
+
+#light .post {
+    background-color: white;
     box-shadow: 0 4px 10px 1px #888; /* line shadow */
+
+}
+
+#dark .post {
+    background-color: #181818;
+    border: #000;
 }
 
 .post__header {
@@ -69,7 +78,7 @@ h5 {
 
 
 .post__comment {
-    padding: 15px;
+    padding: 10px 15px;
     font-weight: normal;
 }
 
@@ -85,4 +94,24 @@ h5 {
     padding: 10px;
     width: 100%;
     border-top: 1px solid lightgray;
+}
+
+.comment-input {
+    flex: 3;
+}
+
+.comment-button {
+    flex: 1;
+}
+
+#dark .comment-input {
+    color: white;
+}
+
+#dark .comment-button {
+    color: white;
+}
+
+#dark .comment-button:hover {
+    background-color: lightgray;
 }

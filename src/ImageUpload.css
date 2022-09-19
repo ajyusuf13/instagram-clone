@@ -3,13 +3,21 @@
     flex-direction: column;
     align-items: center;
     padding-bottom: 15px;
-    background-color: #fafafa;
     width: 100%;
     position: sticky;
     bottom: 0;
     z-index: 1;
     margin-left: auto;
     margin-right: auto;
+}
+
+#light .upload {
+    background-color: #fafafa;
+
+}
+
+#dark .upload {
+    background-color: #2A2A2A;
 
 }
 
@@ -41,6 +49,10 @@ border-radius: 50px;
 .upload__caption {
     width: 70%;
     margin-bottom: 10px;
+}
+
+#dark .upload__caption {
+    color: white;
 }
 
 .upload__file {

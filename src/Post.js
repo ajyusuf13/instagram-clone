@@ -39,7 +39,7 @@ function Post({postId, username, caption, imageURL, timestamp}) {
             .onSnapshot((snapshot) => {
                 setNumLikes(snapshot.docs.length);
             })
-            
+
         const ifUserLiked = () => {
             if (auth.currentUser) {
                 db.collection("posts").doc(postId).collection("likes").where("username", "==", auth.currentUser.displayName).get()
@@ -93,7 +93,7 @@ function Post({postId, username, caption, imageURL, timestamp}) {
                 </Avatar>
                 <h4>{username}</h4>
             </div>
-            <Moment fromNow className='post__timePosted'>{timestamp.toDate()}</Moment>
+            <Moment fromNow className='post__timePosted'>{timestamp?.toDate()}</Moment>
         </div>
         <img className='post__image'    
             src={imageURL}
@@ -120,8 +120,8 @@ function Post({postId, username, caption, imageURL, timestamp}) {
             </div>
         ) : null }
         <div className='post__addComment'>
-            <Input style={{width: "70%"}} type="text" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="something to say perhaps...?"></Input>
-            <Button style={{width: "30%"}} onClick={addComment} disabled={!comment || !auth.currentUser}>add comment</Button>
+            <Input className="comment-input"  type="text" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="something to say perhaps...?"></Input>
+            <Button className='comment-button' onClick={addComment} disabled={!comment || !auth.currentUser}>add comment</Button>
         </div>
         
 
